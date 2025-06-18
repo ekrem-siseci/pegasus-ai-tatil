@@ -6,13 +6,25 @@ const { fetch } = require('undici');
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public')); // index.html bu klasörde olmalı
+app.use(express.static('public'));
 
-// OpenAI DALL·E API'den görsel üret
 app.post('/api/image', async (req, res) => {
-  const { style, companion } = req.body;
+  const { style, companion, dream, location } = req.body;
 
-  const prompt = `A ${style} vacation with ${companion}. Dreamy summer vibes, blue sky, immersive scene, photorealistic, vibrant colors.`;
+  // Prompt bileşenlerini birleştir
+  let prompt = '';
+
+  if (dream && dream.trim().length > 10) {
+    prompt += `${dream.trim()}. `;
+  } else {
+    prompt += `A ${style} vacation with ${companion}. `;
+  }
+
+  if (location) {
+    prompt += `This scene takes place in ${location}. `;
+  }
+
+  prompt += 'Cinematic lighting, photorealistic style, immersive details.';
 
   try {
     const response = await fetch("https://api.openai.com/v1/images/generations", {
@@ -22,7 +34,7 @@ app.post('/api/image', async (req, res) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "dall-e-3", // Gerekirse "dall-e-2" ile değiştirilebilir
+        model: "dall-e-3",
         prompt,
         n: 1,
         size: "1024x1024"
@@ -30,7 +42,6 @@ app.post('/api/image', async (req, res) => {
     });
 
     const data = await response.json();
-
     const imageUrl = data?.data?.[0]?.url || null;
 
     if (imageUrl) {

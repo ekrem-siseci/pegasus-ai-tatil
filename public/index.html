@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8">
   <title>Pegasus AI Tatil</title>
@@ -24,6 +24,20 @@
       </select>
     </label><br><br>
 
+    <label>Hayalini tarif et (isteğe bağlı):<br>
+      <textarea id="dream" rows="4" cols="40" placeholder="Eski bir şehir meydanında kahve içerken insanları izlemek gibi..."></textarea>
+    </label><br><br>
+
+    <label>Gitmek istediğin şehir (Pegasus destinasyonlarından):<br>
+      <select id="location">
+        <option value="">Şehir seç (isteğe bağlı)</option>
+        <option value="Barcelona, Spain">Barselona</option>
+        <option value="Athens, Greece">Atina</option>
+        <option value="Paris, France">Paris</option>
+        <option value="Istanbul, Turkey">İstanbul</option>
+      </select>
+    </label><br><br>
+
     <button type="submit">Görsel Oluştur</button>
   </form>
 
@@ -35,11 +49,13 @@
 
       const style = document.getElementById("style").value;
       const companion = document.getElementById("companion").value;
+      const dream = document.getElementById("dream").value;
+      const location = document.getElementById("location").value;
 
       const response = await fetch("/api/image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ style, companion })
+        body: JSON.stringify({ style, companion, dream, location })
       });
 
       const data = await response.json();
