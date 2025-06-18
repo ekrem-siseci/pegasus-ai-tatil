@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pegasus AI Tatil</title>
+</head>
+<body>
+  <h1>Hayalindeki Tatili Pegasus ile Gör</h1>
+
+  <form id="travel-form">
+    <label>Tatil tarzı:
+      <select id="style">
+        <option value="beach">Deniz</option>
+        <option value="nature">Doğa</option>
+        <option value="city">Şehir</option>
+      </select>
+    </label><br><br>
+
+    <label>Seyahat arkadaşı:
+      <select id="companion">
+        <option value="alone">Tek başıma</option>
+        <option value="partner">Sevgilimle</option>
+        <option value="family">Ailemle</option>
+      </select>
+    </label><br><br>
+
+    <button type="submit">Görsel Oluştur</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    document.getElementById("travel-form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const style = document.getElementById("style").value;
+      const companion = document.getElementById("companion").value;
+
+      const response = await fetch("/api/image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ style, companion })
+      });
+
+      const data = await response.json();
+      if (data?.imageUrl) {
+        document.getElementById("result").innerHTML = `<img src="${data.imageUrl}" width="512">`;
+      } else {
+        document.getElementById("result").innerText = "Görsel alınamadı.";
+      }
+    });
+  </script>
+</body>
+</html>

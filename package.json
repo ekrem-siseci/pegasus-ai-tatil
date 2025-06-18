@@ -1,0 +1,27 @@
+{
+  "name": "pegasus-ai-tatil",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ekrem-siseci/pegasus-ai-tatil.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ekrem-siseci/pegasus-ai-tatil/issues"
+  },
+  "homepage": "https://github.com/ekrem-siseci/pegasus-ai-tatil#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "undici": "^7.10.0"
+  }
+}
