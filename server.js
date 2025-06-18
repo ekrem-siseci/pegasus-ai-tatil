@@ -11,20 +11,21 @@ app.use(express.static('public'));
 app.post('/api/image', async (req, res) => {
   const { style, companion, dream, location } = req.body;
 
-  // Prompt bileşenlerini birleştir
+  // 🔥 Yeni: Gelişmiş prompt üretimi
   let prompt = '';
 
   if (dream && dream.trim().length > 10) {
-    prompt += `${dream.trim()}. `;
+    prompt += `Imagine the following scene as a detailed, high-resolution photograph: ${dream.trim()}. `;
   } else {
     prompt += `A ${style} vacation with ${companion}. `;
   }
 
   if (location) {
-    prompt += `This scene takes place in ${location}. `;
+    prompt += `This moment takes place in ${location}, known for its charming streets and warm ambiance. `;
   }
 
-  prompt += 'Cinematic lighting, photorealistic style, immersive details.';
+  // 🎨 Stil detayları: fotoğraf ve sinematik his
+  prompt += 'Golden hour lighting, ultra photorealistic, cinematic composition, Leica lens, shallow depth of field, warm color palette, emotional atmosphere.';
 
   try {
     const response = await fetch("https://api.openai.com/v1/images/generations", {
