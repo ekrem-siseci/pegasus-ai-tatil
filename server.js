@@ -11,21 +11,27 @@ app.use(express.static('public'));
 app.post('/api/image', async (req, res) => {
   const { style, companion, dream, location } = req.body;
 
-  // 🔥 Yeni: Gelişmiş prompt üretimi
+  // Gelişmiş, sahne betimlemeli prompt
   let prompt = '';
 
   if (dream && dream.trim().length > 10) {
-    prompt += `Imagine the following scene as a detailed, high-resolution photograph: ${dream.trim()}. `;
+    prompt += `Scene: ${dream.trim()}. `;
   } else {
     prompt += `A ${style} vacation with ${companion}. `;
   }
 
   if (location) {
-    prompt += `This moment takes place in ${location}, known for its charming streets and warm ambiance. `;
+    prompt += `Setting: ${location}, a picturesque and emotionally rich location. `;
   }
 
-  // 🎨 Stil detayları: fotoğraf ve sinematik his
-  prompt += 'Golden hour lighting, ultra photorealistic, cinematic composition, Leica lens, shallow depth of field, warm color palette, emotional atmosphere.';
+  // ✨ Fotoğraf ve sinematik detaylar (ToryBarber + Pitch referanslarıyla)
+  prompt += `
+  This image should be a high-end DSLR photograph, shot on a Leica or Canon 5D, 
+  with a 50mm lens at f1.8 aperture. Use soft golden hour natural lighting, 
+  warm tones, and shallow depth of field to focus on the subject. 
+  Composition should follow the rule of thirds. Add subtle film grain, 
+  slight motion blur in background, and analog color tones to evoke realism. 
+  Cinematic, emotionally evocative, ultra photorealistic.`;
 
   try {
     const response = await fetch("https://api.openai.com/v1/images/generations", {
